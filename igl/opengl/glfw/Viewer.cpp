@@ -530,34 +530,6 @@ namespace opengl
 			return collision;
 		}
 
-		bool Viewer::Separated(Eigen::Vector3f vertsA[], Eigen::Vector3f vertsB[], Eigen::Vector3f axis)
-		{
-			// Handles the cross product = {0,0,0} case
-			if (axis.isZero())
-				return false;
-
-			float aMin = (float) INT_MAX;
-			float aMax = (float) INT_MIN;
-			float bMin = (float) INT_MAX;
-			float bMax = (float) INT_MIN;
-
-			// Define two intervals, a and b. Calculate their min and max values
-			for (int i = 0; i < 8; i++)
-			{
-				float aDist = vertsA[i].dot(axis);
-				aMin = aDist < aMin ? aDist : aMin;
-				aMax = aDist > aMax ? aDist : aMax;
-				float bDist = vertsB[i].dot(axis);
-				bMin = bDist < bMin ? bDist : bMin;
-				bMax = bDist > bMax ? bDist : bMax;
-			}
-
-			// One-dimensional intersection test between a and b
-			float longSpan = fmax(aMax, bMax) - fmin(aMin, bMin);
-			float sumSpan = aMax - aMin + bMax - bMin;
-			return longSpan > sumSpan; // > to treat touching as intersection
-		}
-
 		void Viewer::build_kd_trees()
 		{
 			using namespace Eigen;
